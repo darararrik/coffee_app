@@ -23,7 +23,7 @@ class CategoryChip extends StatelessWidget {
           color: isSelected
               ? Theme.of(context).primaryColor
               : const Color(0xFFF5F5F5),
-          borderRadius: BorderRadius.circular(36),
+          borderRadius: BorderRadius.circular(64),
         ),
         child: Text(
           label,

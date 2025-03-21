@@ -1,39 +1,47 @@
+import 'package:coffee_app/core/ui/theme.dart';
+import 'package:coffee_app/features/shopping_cart_bottom_sheet/models/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/core/models/coffee_entity.dart';
 import 'package:coffee_app/core/widgets/coffee_card.dart';
 import 'package:coffee_app/core/widgets/coffee_header.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:coffee_app/features/coffee_screen/bloc/cart_bloc.dart';
 
 class CoffeeScreen extends StatelessWidget {
   CoffeeScreen({super.key});
   static const List<String> categories = [
-    'Черный кофе',
+    'Чёрный кофе',
     'Дрип Кофе',
     'Чай',
     'Прочие напитки'
   ];
 
   final String selectedCategory = categories.first;
-  final ScrollController _scrollController = ScrollController();
   final Map<String, GlobalKey> _categoryKeys = {};
 
-  final List<CoffeeEntity> coffeeList = [
-    CoffeeEntity(name: 'Эспрессо', category: 'Черный кофе', price: 451),
-    CoffeeEntity(name: 'Латте', category: 'Дрип Кофе', price: 451),
-    CoffeeEntity(name: 'Капучино', category: 'Дрип Кофе', price: 451),
-    CoffeeEntity(name: 'Капучино', category: 'Дрип Кофе', price: 451),
-    CoffeeEntity(name: 'Капучино', category: 'Дрип Кофе', price: 451),
-    CoffeeEntity(name: 'Капучино', category: 'Дрип Кофе', price: 451),
-    CoffeeEntity(name: 'Капучино', category: 'Дрип Кофе', price: 451),
-    CoffeeEntity(name: 'Капучино', category: 'Дрип Кофе', price: 451),
+  final List<CoffeeEntity> dataCoffee = [
+    CoffeeEntity(
+        id: '1', name: 'Эспрессо', category: 'Чёрный кофе', price: 451),
+    CoffeeEntity(id: '2', name: 'Латте', category: 'Дрип Кофе', price: 451),
+    CoffeeEntity(id: '3', name: 'Капучино', category: 'Дрип Кофе', price: 451),
+    CoffeeEntity(id: '4', name: 'Капучино', category: 'Дрип Кофе', price: 451),
+    CoffeeEntity(id: '5', name: 'Капучино', category: 'Дрип Кофе', price: 451),
+    CoffeeEntity(id: '6', name: 'Капучино', category: 'Дрип Кофе', price: 451),
+    CoffeeEntity(id: '7', name: 'Капучино', category: 'Дрип Кофе', price: 451),
+    CoffeeEntity(id: '8', name: 'Капучино', category: 'Дрип Кофе', price: 451),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          controller: _scrollController,
+    return BlocBuilder<CartBloc, CartState>(
+      builder: (context, state) {
+        return CustomScrollView(
           slivers: [
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
             SliverPersistentHeader(
               pinned: true,
               delegate: _StickyHeaderDelegate(
@@ -48,7 +56,7 @@ class CoffeeScreen extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final category = categories[index];
-                  final categoryCoffeeList = coffeeList
+                  final categoryCoffeeList = dataCoffee
                       .where((coffee) => coffee.category == category)
                       .toList();
 
@@ -61,10 +69,10 @@ class CoffeeScreen extends StatelessWidget {
                             horizontal: 16, vertical: 8),
                         child: Text(
                           category,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium
+                              ?.copyWith(color: neutral1Dark),
                         ),
                       ),
                       GridView.builder(
@@ -76,14 +84,24 @@ class CoffeeScreen extends StatelessWidget {
                           crossAxisCount: 2,
                           crossAxisSpacing: 20,
                           mainAxisSpacing: 20,
-                          childAspectRatio: 180 / 242,
+                          childAspectRatio: 180.0 / 252.0,
                         ),
                         itemCount: categoryCoffeeList.length,
                         itemBuilder: (context, index) {
                           return CoffeeCard(
                             coffee: categoryCoffeeList[index],
                             onAddTap: () {
-                              // Добавить обработку добавления в корзину
+                              context.read<CartBloc>().add(
+                                    AddToCartEvent(
+                                      CartItem(
+                                        id: categoryCoffeeList[index].id,
+                                        name: categoryCoffeeList[index].name,
+                                        price: categoryCoffeeList[index].price,
+                                        imageUrl:
+                                            categoryCoffeeList[index].imageUrl,
+                                      ),
+                                    ),
+                                  );
                             },
                           );
                         },
@@ -95,8 +113,8 @@ class CoffeeScreen extends StatelessWidget {
               ),
             ),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

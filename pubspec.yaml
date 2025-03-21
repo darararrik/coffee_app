@@ -1,6 +1,6 @@
 name: coffee_app
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: "none"
 environment:
   sdk: ^3.6.0
 dependencies:
@@ -9,6 +9,9 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   flutter_svg: ^2.0.17
+  go_router: ^14.8.1
+  flutter_bloc: ^9.1.0
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:
@@ -22,6 +25,12 @@ flutter:
     - assets/svg/icons/
     - assets/svg/
     - assets/img/
+  fonts:
+    - family: Open Sans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+        - asset: assets/fonts/OpenSans-SemiBold.ttf
+          weight: 600
   # fonts:
   #   - family: Schyler
   #     fonts:

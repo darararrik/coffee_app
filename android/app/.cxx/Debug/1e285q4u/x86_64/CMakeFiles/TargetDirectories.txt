@@ -1,2 +1,0 @@
-C:/dev/Projects/coffee_app/coffee_app/android/app/.cxx/Debug/1e285q4u/x86_64/CMakeFiles/edit_cache.dir
-C:/dev/Projects/coffee_app/coffee_app/android/app/.cxx/Debug/1e285q4u/x86_64/CMakeFiles/rebuild_cache.dir

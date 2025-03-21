@@ -15,7 +15,6 @@ class CategoryHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -24,16 +23,21 @@ class CategoryHeader extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: FilterChip(
+                side: BorderSide(color: Colors.transparent),
+                showCheckmark: false,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(32),
+                ),
                 label: Text(category),
                 selected: selectedCategory == category,
                 onSelected: (_) => onCategorySelected(category),
-                selectedColor: Colors.orange,
-                backgroundColor: Colors.grey[300],
-                labelStyle: TextStyle(
-                  color: selectedCategory == category
-                      ? Colors.white
-                      : Colors.black,
-                ),
+                selectedColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: Colors.white,
+                labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: selectedCategory == category
+                          ? Colors.white
+                          : Colors.black,
+                    ),
               ),
             );
           }).toList(),
