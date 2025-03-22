@@ -1,4 +1,4 @@
-import 'package:coffee_app/core/ui/theme.dart';
+import 'package:coffee_app/core/ui/colors.dart';
 import 'package:coffee_app/features/coffee_screen/bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/core/ui/images.dart';
@@ -47,7 +47,7 @@ class CoffeeCard extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .titleLarge
-                            ?.copyWith(color: neutral1Dark),
+                            ?.copyWith(color: neutral1DarkColor),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -83,8 +83,13 @@ class CoffeeCard extends StatelessWidget {
                                           ),
                                         );
                                   },
-                                  icon: minusIcon,
-                                  color: neutral1Dark,
+                                  icon: Icon(Icons.remove),
+                                  style: IconButton.styleFrom(
+                                    backgroundColor:
+                                        neutral2LightColor, // Цвет фона
+                                    foregroundColor:
+                                        Colors.black, // Цвет иконки
+                                  ),
                                 ),
                                 Text(
                                   '${cartItem.quantity}',
@@ -92,7 +97,7 @@ class CoffeeCard extends StatelessWidget {
                                       .textTheme
                                       .titleLarge
                                       ?.copyWith(
-                                        color: neutral1Dark,
+                                        color: neutral1DarkColor,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
@@ -105,7 +110,13 @@ class CoffeeCard extends StatelessWidget {
                                           ),
                                         );
                                   },
-                                  icon: plusIcon,
+                                  style: IconButton.styleFrom(
+                                    backgroundColor:
+                                        neutral2LightColor, // Цвет фона
+                                    foregroundColor:
+                                        Colors.black, // Цвет иконки
+                                  ),
+                                  icon: Icon(Icons.add),
                                 ),
                               ],
                             )
@@ -134,7 +145,7 @@ class CoffeeCard extends StatelessWidget {
         Text(
           "${coffee.price.toStringAsFixed(0)} ₽",
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: neutral1Dark,
+              color: neutral1DarkColor,
               fontWeight: FontWeight.w600,
               fontFamily: 'Roboto'),
         ),

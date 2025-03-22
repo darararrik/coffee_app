@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainFab extends StatelessWidget {
   const MainFab({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(

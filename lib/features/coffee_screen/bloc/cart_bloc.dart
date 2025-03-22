@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:coffee_app/features/shopping_cart_bottom_sheet/models/cart_item.dart';
 
@@ -28,7 +29,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         totalAmount: _calculateTotal(items),
       ));
     });
-
+    on<AllRemoveEvent>((event, emit) {
+      items.clear();
+      isVisible = false;
+      emit(CartUpdated(
+        items: items,
+        isVisible: isVisible,
+        totalAmount: 0,
+      ));
+    });
     on<UpdateQuantityEvent>((event, emit) {
       final index = items.indexWhere((item) => item.id == event.itemId);
       if (index != -1) {

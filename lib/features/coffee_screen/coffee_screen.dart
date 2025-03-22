@@ -1,4 +1,4 @@
-import 'package:coffee_app/core/ui/theme.dart';
+import 'package:coffee_app/core/ui/colors.dart';
 import 'package:coffee_app/features/shopping_cart_bottom_sheet/models/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/core/models/coffee_entity.dart';
@@ -72,7 +72,7 @@ class CoffeeScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium
-                              ?.copyWith(color: neutral1Dark),
+                              ?.copyWith(color: neutral1DarkColor),
                         ),
                       ),
                       GridView.builder(

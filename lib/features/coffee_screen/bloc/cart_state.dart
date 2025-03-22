@@ -1,8 +1,11 @@
 part of 'cart_bloc.dart';
 
-sealed class CartState {}
+sealed class CartState extends Equatable {}
 
-final class CartInitial extends CartState {}
+final class CartInitial extends CartState {
+  @override
+  List<Object?> get props => [];
+}
 
 class CartUpdated extends CartState {
   final List<CartItem> items;
@@ -14,4 +17,7 @@ class CartUpdated extends CartState {
     required this.isVisible,
     required this.totalAmount,
   });
+
+  @override
+  List<Object?> get props => [items, isVisible, totalAmount];
 }

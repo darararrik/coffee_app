@@ -1,6 +1,6 @@
 import 'package:coffee_app/core/models/coffee_entity.dart';
+import 'package:coffee_app/core/ui/colors.dart';
 import 'package:coffee_app/core/ui/svg_icons.dart';
-import 'package:coffee_app/core/ui/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -35,12 +35,27 @@ class CoffeeDetailScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      coffee.name,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineLarge
-                          ?.copyWith(color: neutral1Dark),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          coffee.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge
+                              ?.copyWith(color: neutral1DarkColor),
+                        ),
+                        Text(
+                          "${coffee.price.toStringAsFixed(0)} ₽",
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge
+                              ?.copyWith(
+                                  color: neutral1DarkColor,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w300),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 16),
                     Text(
@@ -48,7 +63,7 @@ class CoffeeDetailScreen extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .bodyLarge
-                          ?.copyWith(color: neutral1Dark),
+                          ?.copyWith(color: neutral1DarkColor),
                     ),
                   ],
                 ),

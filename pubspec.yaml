@@ -12,8 +12,13 @@ dependencies:
   go_router: ^14.8.1
   flutter_bloc: ^9.1.0
   dio: ^5.8.0+1
+  equatable: ^2.0.7
+  retrofit: ^4.4.2
 
 dev_dependencies:
+  retrofit_generator: ">=9.1.9" # for Dart 3.3 use ^9.0.0
+  build_runner: ^2.3.3
+  json_serializable: ^6.9.4
   flutter_test:
     sdk: flutter
 

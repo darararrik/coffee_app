@@ -97,6 +97,3 @@ final lightTheme = ThemeData(
     ),
   ),
 );
-final Color neutral1Dark = Color(0xFF484647);
-final Color neutral2Dark = Color(0xFF797677);
-final Color neutral3Dark = Color(0xFFAEAAAB);
