@@ -1,8 +1,11 @@
+import 'package:coffee_app/features/coffee_screen/domain/entities/category_entity.dart';
+import 'package:coffee_app/features/coffee_screen/domain/entities/prices_entity.dart';
+
 class CoffeeEntity {
-  final String id;
+  final int id;
   final String name;
-  final String category;
-  final double price;
+  final CategoryEntity category;
+  final PriceEntity price;
   final String imageUrl;
   final String description;
 

@@ -1,5 +1,5 @@
 class CartItem {
-  final String id;
+  final int id;
   final String imageUrl;
   final String name;
   final double price;
@@ -14,7 +14,7 @@ class CartItem {
   });
 
   CartItem copyWith({
-    String? id,
+    int? id,
     String? name,
     String? imageUrl,
     double? price,

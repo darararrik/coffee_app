@@ -23,7 +23,7 @@ class CartItemWidget extends StatelessWidget {
               SizedBox(
                 width: 55,
                 height: 55,
-                child: Image.asset(item.imageUrl),
+                child: Image.network(item.imageUrl),
               ),
               const SizedBox(width: 16),
               Row(

@@ -1,4 +1,4 @@
-import 'package:coffee_app/features/coffee_screen/bloc/cart_bloc.dart';
+import 'package:coffee_app/features/coffee_screen/presentation/blocs/cart_bloc/cart_bloc.dart';
 import 'package:coffee_app/features/shopping_cart_bottom_sheet/shopping_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

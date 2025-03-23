@@ -11,7 +11,7 @@ class AddToCartEvent extends CartEvent {
 }
 
 class RemoveFromCartEvent extends CartEvent {
-  final String itemId;
+  final int itemId;
   RemoveFromCartEvent(this.itemId);
 
   @override
@@ -19,7 +19,7 @@ class RemoveFromCartEvent extends CartEvent {
 }
 
 class UpdateQuantityEvent extends CartEvent {
-  final String itemId;
+  final int itemId;
   final int quantity;
   UpdateQuantityEvent(this.itemId, this.quantity);
 

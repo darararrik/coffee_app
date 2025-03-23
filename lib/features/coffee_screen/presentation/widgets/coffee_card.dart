@@ -1,11 +1,11 @@
+import 'package:coffee_app/features/coffee_screen/domain/entities/coffee_entity.dart';
 import 'package:coffee_app/core/ui/colors.dart';
-import 'package:coffee_app/features/coffee_screen/bloc/cart_bloc.dart';
+import 'package:coffee_app/features/coffee_screen/presentation/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:coffee_app/core/ui/images.dart';
 import 'package:coffee_app/core/ui/svg_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../models/coffee_entity.dart';
 import 'package:coffee_app/features/shopping_cart_bottom_sheet/models/cart_item.dart';
 
 class CoffeeCard extends StatelessWidget {
@@ -62,14 +62,14 @@ class CoffeeCard extends StatelessWidget {
                       orElse: () => CartItem(
                         id: coffee.id,
                         name: coffee.name,
-                        price: coffee.price,
+                        price: coffee.price.value,
                         quantity: 0,
                         imageUrl: coffee.imageUrl,
                       ),
                     );
                     return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0)
-                          .copyWith(top: 26),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 16),
                       child: cartItem.quantity > 0
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,14 +141,18 @@ class CoffeeCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        //Почему-то в Open Sans не отображается значок рубля (₽)
-        Text(
-          "${coffee.price.toStringAsFixed(0)} ₽",
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: neutral1DarkColor,
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Roboto'),
+        Expanded(
+          child: Text(
+            "${coffee.price.value.toStringAsFixed(0)} ₽",
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: neutral1DarkColor,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Roboto',
+                ),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
+        const SizedBox(width: 8),
         IconButton.filled(
           onPressed: onAddTap,
           icon: plusIcon,

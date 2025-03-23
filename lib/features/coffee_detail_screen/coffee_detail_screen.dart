@@ -1,4 +1,4 @@
-import 'package:coffee_app/core/models/coffee_entity.dart';
+import 'package:coffee_app/features/coffee_screen/domain/entities/coffee_entity.dart';
 import 'package:coffee_app/core/ui/colors.dart';
 import 'package:coffee_app/core/ui/svg_icons.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class CoffeeDetailScreen extends StatelessWidget {
         SliverFillRemaining(
           child: Column(
             children: [
-              Image.asset(
+              Image.network(
                 coffee.imageUrl,
                 fit: BoxFit.cover,
                 height: 218,
@@ -46,7 +46,7 @@ class CoffeeDetailScreen extends StatelessWidget {
                               ?.copyWith(color: neutral1DarkColor),
                         ),
                         Text(
-                          "${coffee.price.toStringAsFixed(0)} ₽",
+                          "${coffee.price.value.toStringAsFixed(0)} ₽",
                           style: Theme.of(context)
                               .textTheme
                               .headlineLarge

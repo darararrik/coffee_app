@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffee_app/core/widgets/main_fab.dart';
+import 'package:coffee_app/features/main_scaffold/widgets/main_fab.dart';
 
 class MainScaffold extends StatelessWidget {
   final Widget child;
