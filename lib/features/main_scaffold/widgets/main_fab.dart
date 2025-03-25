@@ -1,5 +1,6 @@
+import 'package:coffee_app/core/presentation/cubit/theme_cubit.dart';
 import 'package:coffee_app/features/coffee_screen/presentation/blocs/cart_bloc/cart_bloc.dart';
-import 'package:coffee_app/features/shopping_cart_bottom_sheet/shopping_cart.dart';
+import 'package:coffee_app/features/shopping_cart_bottom_sheet/presentation/shopping_cart_bot_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,8 +17,19 @@ class MainFab extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FloatingActionButton(
-                onPressed: () {},
-                child: Icon(Icons.sunny),
+                onPressed: () {
+                  context.read<ThemeCubit>().toggleTheme();
+                },
+                child: Theme.of(context).brightness == Brightness.dark
+                    ? Icon(
+                        Icons.dark_mode_outlined,
+                        size: 24,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      )
+                    : Icon(
+                        Icons.light_mode_outlined,
+                        size: 24,
+                      ),
               ),
               ...[
                 if (state is CartUpdated && state.isVisible)
@@ -25,15 +37,17 @@ class MainFab extends StatelessWidget {
                     onPressed: () {
                       showShoppingCart(context);
                     },
-                    //Почему-то в Open Sans не отображается значок рубля (₽)
                     label: Text(
-                      "${state.totalAmount.toStringAsFixed(0)} ₽",
+                      "${state.cartItems.fold(0.0, (sum, item) => sum + item.price * item.quantity).toStringAsFixed(0)} ₽",
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                           fontWeight: FontWeight.w600,
                           fontFamily: "Roboto"),
                     ),
-                    icon: Icon(Icons.shopping_cart_outlined),
+                    icon: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.white,
+                    ),
                   ),
               ],
             ],

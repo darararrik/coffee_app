@@ -1,6 +1,6 @@
-import 'package:coffee_app/features/coffee_screen/domain/entities/coffee_entity.dart';
-import 'package:coffee_app/core/ui/colors.dart';
-import 'package:coffee_app/core/ui/svg_icons.dart';
+import 'package:coffee_app/core/domain/entities/coffee_entity.dart';
+import 'package:coffee_app/core/presentation/ui/images.dart';
+import 'package:coffee_app/core/presentation/ui/svg_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -28,6 +28,9 @@ class CoffeeDetailScreen extends StatelessWidget {
                 coffee.imageUrl,
                 fit: BoxFit.cover,
                 height: 218,
+                errorBuilder: (context, error, stackTrace) {
+                  return placeholderCoffeePng;
+                },
               ),
               Padding(
                 padding:
@@ -38,33 +41,22 @@ class CoffeeDetailScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          coffee.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineLarge
-                              ?.copyWith(color: neutral1DarkColor),
-                        ),
+                        Text(coffee.name,
+                            style: Theme.of(context).textTheme.headlineLarge),
                         Text(
                           "${coffee.price.value.toStringAsFixed(0)} ₽",
                           style: Theme.of(context)
                               .textTheme
                               .headlineLarge
                               ?.copyWith(
-                                  color: neutral1DarkColor,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w300),
                         ),
                       ],
                     ),
                     SizedBox(height: 16),
-                    Text(
-                      coffee.description,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: neutral1DarkColor),
-                    ),
+                    Text(coffee.description,
+                        style: Theme.of(context).textTheme.bodyLarge),
                   ],
                 ),
               ),

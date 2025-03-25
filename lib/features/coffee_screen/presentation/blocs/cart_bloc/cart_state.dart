@@ -8,16 +8,23 @@ final class CartInitial extends CartState {
 }
 
 class CartUpdated extends CartState {
-  final List<CartItem> items;
+  final List<CartItem> cartItems;
   final bool isVisible;
-  final double totalAmount;
 
   CartUpdated({
-    required this.items,
+    required this.cartItems,
     required this.isVisible,
-    required this.totalAmount,
   });
 
   @override
-  List<Object?> get props => [items, isVisible, totalAmount];
+  List<Object?> get props => [cartItems, isVisible];
+}
+
+class CartError extends CartState {
+  final String message;
+
+  CartError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

@@ -1,21 +1,17 @@
-import 'package:coffee_app/features/coffee_screen/domain/entities/coffee_entity.dart';
-import 'package:coffee_app/core/ui/colors.dart';
+import 'package:coffee_app/core/data/db/app_database.dart';
+import 'package:coffee_app/core/domain/entities/coffee_entity.dart';
 import 'package:coffee_app/features/coffee_screen/presentation/blocs/cart_bloc/cart_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:coffee_app/core/ui/images.dart';
-import 'package:coffee_app/core/ui/svg_icons.dart';
+import 'package:coffee_app/core/presentation/ui/svg_icons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:coffee_app/features/shopping_cart_bottom_sheet/models/cart_item.dart';
 
 class CoffeeCard extends StatelessWidget {
   final CoffeeEntity coffee;
-  final VoidCallback onAddTap;
 
   const CoffeeCard({
     super.key,
     required this.coffee,
-    required this.onAddTap,
   });
 
   @override
@@ -25,8 +21,8 @@ class CoffeeCard extends StatelessWidget {
         context.push('/coffee/${coffee.id}', extra: coffee);
       },
       child: Card(
-        color: Colors.white,
         elevation: 0,
+        color: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -40,14 +36,18 @@ class CoffeeCard extends StatelessWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      placeholderCoffeePng,
+                      Image.network(
+                        coffee.imageUrl + 'd',
+                        height: 100,
+                        fit: BoxFit.fitWidth,
+                        errorBuilder: (context, error, stackTrace) {
+                          return placeholderCoffee;
+                        },
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         coffee.name,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(color: neutral1DarkColor),
+                        style: Theme.of(context).textTheme.titleLarge,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
@@ -57,7 +57,7 @@ class CoffeeCard extends StatelessWidget {
               BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
                   if (state is CartUpdated) {
-                    final cartItem = state.items.firstWhere(
+                    final existingItem = state.cartItems.firstWhere(
                       (item) => item.id == coffee.id,
                       orElse: () => CartItem(
                         id: coffee.id,
@@ -70,7 +70,7 @@ class CoffeeCard extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 16),
-                      child: cartItem.quantity > 0
+                      child: existingItem.quantity > 0
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -78,44 +78,37 @@ class CoffeeCard extends StatelessWidget {
                                   onPressed: () {
                                     context.read<CartBloc>().add(
                                           UpdateQuantityEvent(
-                                            coffee.id,
-                                            cartItem.quantity - 1,
+                                            existingItem.copyWith(
+                                              quantity:
+                                                  existingItem.quantity - 1,
+                                            ),
                                           ),
                                         );
                                   },
                                   icon: Icon(Icons.remove),
-                                  style: IconButton.styleFrom(
-                                    backgroundColor:
-                                        neutral2LightColor, // Цвет фона
-                                    foregroundColor:
-                                        Colors.black, // Цвет иконки
-                                  ),
                                 ),
                                 Text(
-                                  '${cartItem.quantity}',
+                                  '${existingItem.quantity}',
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge
                                       ?.copyWith(
-                                        color: neutral1DarkColor,
                                         fontWeight: FontWeight.w600,
                                       ),
                                 ),
                                 IconButton.filled(
                                   onPressed: () {
-                                    context.read<CartBloc>().add(
-                                          UpdateQuantityEvent(
-                                            coffee.id,
-                                            cartItem.quantity + 1,
-                                          ),
-                                        );
+                                    if (existingItem.quantity < 10) {
+                                      context.read<CartBloc>().add(
+                                            UpdateQuantityEvent(
+                                              existingItem.copyWith(
+                                                quantity:
+                                                    existingItem.quantity + 1,
+                                              ),
+                                            ),
+                                          );
+                                    }
                                   },
-                                  style: IconButton.styleFrom(
-                                    backgroundColor:
-                                        neutral2LightColor, // Цвет фона
-                                    foregroundColor:
-                                        Colors.black, // Цвет иконки
-                                  ),
                                   icon: Icon(Icons.add),
                                 ),
                               ],
@@ -145,7 +138,6 @@ class CoffeeCard extends StatelessWidget {
           child: Text(
             "${coffee.price.value.toStringAsFixed(0)} ₽",
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: neutral1DarkColor,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Roboto',
                 ),
@@ -154,8 +146,23 @@ class CoffeeCard extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         IconButton.filled(
-          onPressed: onAddTap,
+          onPressed: () {
+            context.read<CartBloc>().add(
+                  AddToCartEvent(
+                    CartItem(
+                      id: coffee.id,
+                      name: coffee.name,
+                      price: coffee.price.value,
+                      imageUrl: coffee.imageUrl,
+                      quantity: 1,
+                    ),
+                  ),
+                );
+          },
           icon: plusIcon,
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ],
     );

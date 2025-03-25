@@ -1,73 +1,68 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:coffee_app/features/shopping_cart_bottom_sheet/models/cart_item.dart';
+import 'package:coffee_app/core/data/db/app_database.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartInitial()) {
-    final List<CartItem> items = [];
-    bool isVisible = false;
+  final AppDatabase database;
 
-    on<AddToCartEvent>((event, emit) {
-      items.add(event.item);
-      isVisible = true;
-      emit(CartUpdated(
-        items: items,
-        isVisible: isVisible,
-        totalAmount: _calculateTotal(items),
-      ));
-    });
-
-    on<RemoveFromCartEvent>((event, emit) {
-      items.removeWhere((item) => item.id == event.itemId);
-      isVisible = items.isNotEmpty;
-      emit(CartUpdated(
-        items: items,
-        isVisible: isVisible,
-        totalAmount: _calculateTotal(items),
-      ));
-    });
-    on<AllRemoveEvent>((event, emit) {
-      items.clear();
-      isVisible = false;
-      emit(CartUpdated(
-        items: items,
-        isVisible: isVisible,
-        totalAmount: 0,
-      ));
-    });
-    on<UpdateQuantityEvent>((event, emit) {
-      final index = items.indexWhere((item) => item.id == event.itemId);
-      if (index != -1) {
-        if (event.quantity == 0) {
-          items.removeAt(index);
-        } else {
-          items[index] = items[index].copyWith(quantity: event.quantity);
-        }
-        isVisible = items.isNotEmpty;
-        emit(
-          CartUpdated(
-            items: items,
-            isVisible: isVisible,
-            totalAmount: _calculateTotal(items),
-          ),
-        );
-      }
-    });
-
-    on<ToggleCartVisibilityEvent>((event, emit) {
-      isVisible = !isVisible;
-      emit(CartUpdated(
-        items: items,
-        isVisible: isVisible,
-        totalAmount: _calculateTotal(items),
-      ));
-    });
+  CartBloc({required this.database}) : super(CartInitial()) {
+    on<LoadCartEvent>(_onLoadCart);
+    on<AddToCartEvent>(_onAddToCart);
+    on<UpdateQuantityEvent>(_onUpdateQuantity);
+    on<AllRemoveEvent>(_onAllRemove);
   }
 
-  double _calculateTotal(List<CartItem> items) {
-    return items.fold(0, (sum, item) => sum + (item.price * item.quantity));
+  Future<void> _onLoadCart(LoadCartEvent event, Emitter<CartState> emit) async {
+    try {
+      final items = await database.getAllCartItems();
+      bool isVisible = items.isNotEmpty;
+      emit(CartUpdated(cartItems: items, isVisible: isVisible));
+    } catch (e) {
+      emit(CartError('Ошибка загрузки корзины'));
+    }
+  }
+
+  Future<void> _onAddToCart(
+      AddToCartEvent event, Emitter<CartState> emit) async {
+    try {
+      await database.upsertCartItem(event.item);
+
+      final items = await database.getAllCartItems();
+      emit(CartUpdated(cartItems: items, isVisible: true));
+    } catch (e) {
+      emit(CartError('Ошибка добавления товара'));
+    }
+  }
+
+  Future<void> _onUpdateQuantity(
+      UpdateQuantityEvent event, Emitter<CartState> emit) async {
+    try {
+      if (event.item.quantity <= 0) {
+        await database.removeCartItem(event.item.id);
+      } else {
+        await database.upsertCartItem(event.item);
+      }
+      final items = await database.getAllCartItems();
+      if (items.isEmpty) {
+        emit(CartUpdated(cartItems: items, isVisible: false));
+      } else {
+        emit(CartUpdated(cartItems: items, isVisible: true));
+      }
+    } catch (e) {
+      emit(CartError('Ошибка обновления количества'));
+    }
+  }
+
+  Future<void> _onAllRemove(
+      AllRemoveEvent event, Emitter<CartState> emit) async {
+    try {
+      await database.clearCart();
+      emit(CartUpdated(cartItems: [], isVisible: false));
+    } catch (e) {
+      emit(CartError('Ошибка очистки корзины'));
+    }
   }
 }

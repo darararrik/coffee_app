@@ -1,4 +1,4 @@
-import 'package:coffee_app/features/coffee_screen/data/dto/coffee/coffee_dto.dart';
+import 'package:coffee_app/core/data/dto/coffee/coffee_dto.dart';
 import 'package:coffee_app/core/network/dto/meta/meta_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 

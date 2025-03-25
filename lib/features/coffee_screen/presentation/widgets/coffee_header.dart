@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 
 class CategoryHeader extends StatelessWidget {
   final List<String> categories;
-  // final String selectedCategory;
+  final String selectedCategory;
   final ValueChanged<String> onCategorySelected;
 
   const CategoryHeader({
     super.key,
     required this.categories,
     required this.onCategorySelected,
+    required this.selectedCategory,
   });
 
   @override
@@ -28,14 +29,14 @@ class CategoryHeader extends StatelessWidget {
                   borderRadius: BorderRadius.circular(32),
                 ),
                 label: Text(category),
-                selected: "selectedCategory" == category,
+                selected: selectedCategory == category,
                 onSelected: (_) => onCategorySelected(category),
                 selectedColor: Theme.of(context).colorScheme.primary,
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 labelStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: "selectedCategory" == category
+                      color: selectedCategory == category
                           ? Colors.white
-                          : Colors.black,
+                          : Theme.of(context).colorScheme.onSurface,
                     ),
               ),
             );

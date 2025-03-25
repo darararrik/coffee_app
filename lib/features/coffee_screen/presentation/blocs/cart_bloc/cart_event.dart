@@ -19,12 +19,11 @@ class RemoveFromCartEvent extends CartEvent {
 }
 
 class UpdateQuantityEvent extends CartEvent {
-  final int itemId;
-  final int quantity;
-  UpdateQuantityEvent(this.itemId, this.quantity);
+  final CartItem item;
+  UpdateQuantityEvent(this.item);
 
   @override
-  List<Object?> get props => [itemId, quantity];
+  List<Object?> get props => [item];
 }
 
 class ToggleCartVisibilityEvent extends CartEvent {
@@ -34,6 +33,13 @@ class ToggleCartVisibilityEvent extends CartEvent {
 
 class AllRemoveEvent extends CartEvent {
   AllRemoveEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LoadCartEvent extends CartEvent {
+  LoadCartEvent();
 
   @override
   List<Object?> get props => [];

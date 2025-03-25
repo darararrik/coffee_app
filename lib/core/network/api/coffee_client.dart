@@ -1,4 +1,6 @@
 import 'package:coffee_app/core/network/dto/coffee_response/coffee_response.dart';
+import 'package:coffee_app/core/network/dto/order_request/order_request.dart';
+import 'package:coffee_app/core/network/dto/order_response/order_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -10,4 +12,6 @@ abstract class CoffeeClient {
 
   @GET('products/')
   Future<CoffeeResponse> getCoffee();
+  @POST('orders')
+  Future<OrderResponse> orderCoffee(@Body() OrderRequest orderRequest);
 }
