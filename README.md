@@ -41,6 +41,9 @@ lib/
     <img src="screenshots/light_theme_3.png" width="30%" alt="Светлая тема - корзина">
     <img src="screenshots/light_theme_3.png" width="30%" alt="Светлая тема - сделан POST-запрос">
 </div>
+
+#Темная тема:
+
 <div align="center">
     <img src="screenshots/dark_theme_1.png" width="30%" alt="Темная тема - главный экран">
     <img src="screenshots/dark_theme_2.png" width="30%" alt="Темная тема - экран кофе">
