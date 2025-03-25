@@ -19,7 +19,6 @@ class ShoppingCart extends StatelessWidget {
           context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: neutral3LightDarkColor,
               content: Text(state.message),
               duration: Duration(seconds: 2),
             ),
@@ -28,7 +27,6 @@ class ShoppingCart extends StatelessWidget {
         if (state is OrderError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              backgroundColor: neutral3LightDarkColor,
               content: Text(state.message),
               duration: Duration(seconds: 2),
             ),
@@ -39,8 +37,8 @@ class ShoppingCart extends StatelessWidget {
         builder: (context, state) {
           if (state is CartUpdated) {
             return Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
               child: Stack(
@@ -75,14 +73,17 @@ class ShoppingCart extends StatelessWidget {
                                         .headlineMedium,
                                   ),
                                   IconButton(
-                                    onPressed: () {
-                                      context
-                                          .read<CartBloc>()
-                                          .add(AllRemoveEvent());
-                                      context.pop();
-                                    },
-                                    icon: trashIcon,
-                                  ),
+                                      onPressed: () {
+                                        context
+                                            .read<CartBloc>()
+                                            .add(AllRemoveEvent());
+                                        context.pop();
+                                      },
+                                      icon: trashIcon,
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStatePropertyAll(
+                                                  Colors.transparent))),
                                 ],
                               ),
                               const SizedBox(height: 24),
@@ -118,44 +119,48 @@ class ShoppingCart extends StatelessWidget {
                             thickness: 0,
                           ),
                         ),
-                        // Итог
-                        SliverToBoxAdapter(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Итого',
-                                style: Theme.of(context).textTheme.titleMedium,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    state.cartItems
-                                        .fold(
-                                            0.0,
-                                            (sum, item) =>
-                                                sum +
-                                                item.price * item.quantity)
-                                        .toStringAsFixed(0),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                  ),
-                                  Text(
-                                    ' ₽',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium
-                                        ?.copyWith(
+
+                        SliverPadding(
+                          padding: EdgeInsets.only(top: 16),
+                          sliver: SliverToBoxAdapter(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Итого',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      state.cartItems
+                                          .fold(
+                                              0.0,
+                                              (sum, item) =>
+                                                  sum +
+                                                  item.price * item.quantity)
+                                          .toStringAsFixed(0),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
                                             fontWeight: FontWeight.w600,
-                                            fontFamily: "Roboto"),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                          ),
+                                    ),
+                                    Text(
+                                      ' ₽',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: "Roboto"),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         // Пустое пространство для кнопки

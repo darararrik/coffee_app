@@ -93,7 +93,23 @@ class _CoffeeScreenState extends State<CoffeeScreen> {
           return const Center(child: CircularProgressIndicator());
         }
         if (state is CoffeeError) {
-          return Center(child: Text(state.message));
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Ошибка",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    context.read<CoffeeBloc>().add(FetchCoffee());
+                  },
+                  child: Text("Перезагрузить"))
+            ],
+          );
         }
         if (state is CoffeeLoaded) {
           final coffees = state.coffees;

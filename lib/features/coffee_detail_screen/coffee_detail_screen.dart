@@ -1,6 +1,5 @@
 import 'package:coffee_app/core/domain/entities/coffee_entity.dart';
 import 'package:coffee_app/core/presentation/ui/images.dart';
-import 'package:coffee_app/core/presentation/ui/svg_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -15,10 +14,10 @@ class CoffeeDetailScreen extends StatelessWidget {
       slivers: [
         SliverAppBar(
           leading: IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: backButtonIcon,
+            icon: Icon(Icons.arrow_back_ios_new_rounded),
+            onPressed: () => context.pop(),
+            style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.transparent)),
           ),
         ),
         SliverFillRemaining(

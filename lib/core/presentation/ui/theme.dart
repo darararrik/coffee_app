@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     return ThemeData(
+      snackBarTheme: SnackBarThemeData(
+          backgroundColor: neutral3LightDarkColor,
+          contentTextStyle: TextStyle(color: white)),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
           backgroundColor: neutral2LightColor,
@@ -119,6 +122,9 @@ class AppTheme {
 
   static ThemeData get darkTheme {
     return ThemeData(
+      snackBarTheme: SnackBarThemeData(
+          backgroundColor: neutral3LightDarkColor,
+          contentTextStyle: TextStyle(color: white)),
       iconButtonTheme: IconButtonThemeData(
         style: IconButton.styleFrom(
           backgroundColor: neutral2DarkColor,

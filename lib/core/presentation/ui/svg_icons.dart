@@ -1,6 +1,6 @@
 import 'package:coffee_app/core/presentation/ui/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Widget plusIcon = SvgPicture.asset(
   "assets/svg/icons/plus.svg",
@@ -24,5 +24,5 @@ Widget trashIcon = SvgPicture.asset(
 );
 Widget placeholderCoffee = SvgPicture.asset(
   "assets/svg/icons/placeholderCoffee.svg",
-  colorFilter: const ColorFilter.mode(neutral3LightDarkColor, BlendMode.srcIn),
+  colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
 );

@@ -37,7 +37,7 @@ class CoffeeCard extends StatelessWidget {
                   child: Column(
                     children: [
                       Image.network(
-                        coffee.imageUrl + 'd',
+                        coffee.imageUrl,
                         height: 100,
                         fit: BoxFit.fitWidth,
                         errorBuilder: (context, error, stackTrace) {

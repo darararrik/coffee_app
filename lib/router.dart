@@ -1,5 +1,5 @@
 import 'package:coffee_app/core/domain/entities/coffee_entity.dart';
-import 'package:coffee_app/features/coffee_screen/presentation/coffee_screen.dart';
+import 'package:coffee_app/features/coffee_screen/presentation/screens/coffee_screen.dart';
 import 'package:coffee_app/features/coffee_detail_screen/coffee_detail_screen.dart';
 import 'package:coffee_app/features/main_scaffold/main_scaffold_screen.dart';
 import 'package:go_router/go_router.dart';

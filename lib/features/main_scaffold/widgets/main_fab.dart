@@ -40,7 +40,7 @@ class MainFab extends StatelessWidget {
                     label: Text(
                       "${state.cartItems.fold(0.0, (sum, item) => sum + item.price * item.quantity).toStringAsFixed(0)} ₽",
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontFamily: "Roboto"),
                     ),
